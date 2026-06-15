@@ -1,0 +1,341 @@
+:host {
+  --caps-radius: 18px;
+}
+
+.app-header ion-toolbar {
+  --background: var(--app-toolbar-bg, #0f766e);
+  --color: #ffffff;
+  --border-width: 0;
+}
+
+.app-content {
+  --background: var(--app-bg, #eef2f1);
+}
+
+/* celé okno = sloupec; mapa zabere zbytek */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ============================ horní menu: ceny státem ============================ */
+.caps-banner {
+  margin: 10px 12px 6px;
+  padding: 12px 14px;
+  border-radius: var(--caps-radius);
+  color: #fff;
+  background: linear-gradient(135deg, #0f766e 0%, #115e59 55%, #134e4a 100%);
+  box-shadow: 0 8px 22px rgba(15, 118, 110, 0.28);
+}
+
+.caps-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.92;
+
+  ion-icon { font-size: 16px; }
+}
+
+.caps-body { margin-top: 8px; }
+
+.caps-loading,
+.caps-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  min-height: 38px;
+
+  ion-spinner { width: 20px; height: 20px; }
+  ion-icon { font-size: 19px; }
+}
+
+.caps-prices {
+  display: flex;
+  gap: 10px;
+}
+
+.caps-pill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 12px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(2px);
+}
+
+.caps-pill.benzin { box-shadow: inset 3px 0 0 #34d399; }
+.caps-pill.nafta  { box-shadow: inset 3px 0 0 #fbbf24; }
+
+.caps-label {
+  font-size: 11.5px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.caps-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.1;
+
+  small {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-left: 4px;
+  }
+}
+
+.caps-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 9px;
+  font-size: 11px;
+  opacity: 0.82;
+
+  span { display: inline-flex; align-items: center; gap: 4px; }
+  ion-icon { font-size: 13px; }
+}
+
+/* ============================ ovládání ============================ */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 12px 8px;
+}
+
+.fuel-seg {
+  flex: 1;
+  --background: rgba(15, 118, 110, 0.08);
+}
+
+.fuel-seg ion-segment-button {
+  --color: #0b1f2a;
+  --color-checked: #ffffff;
+  --indicator-color: #0f766e;
+  --border-radius: 11px;
+  min-height: 34px;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.prio-chip {
+  margin: 0;
+  height: 34px;
+  --color: #0f766e;
+  font-weight: 600;
+
+  &.active {
+    --background: #0f766e;
+    --color: #ffffff;
+  }
+
+  ion-icon { font-size: 16px; margin-right: 2px; }
+  ion-label { font-size: 12.5px; }
+}
+
+/* ============================ mapa ============================ */
+.map-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0 12px 12px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(11, 31, 42, 0.16);
+}
+
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #e6ebec;
+}
+
+.map-status {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0b1f2a;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
+
+  ion-spinner { width: 17px; height: 17px; }
+  ion-icon { font-size: 18px; }
+  &.error { color: #b91c1c; }
+}
+
+.map-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(11, 31, 42, 0.72);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 500;
+  backdrop-filter: blur(2px);
+}
+
+.map-fabs {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  margin: 0;
+}
+
+/* ============================ spodní panel s detailem ============================ */
+.detail-modal {
+  --width: 100%;
+  --height: auto;
+  --border-radius: 22px 22px 0 0;
+  --box-shadow: 0 -6px 30px rgba(11, 31, 42, 0.28);
+}
+
+.sheet {
+  padding: 8px 18px calc(18px + var(--ion-safe-area-bottom, 0px));
+}
+
+.sheet-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding-top: 4px;
+}
+
+.brand-dot {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 5px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.sheet-titles { flex: 1; min-width: 0; }
+
+.sheet-titles h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: #0b1f2a;
+  line-height: 1.25;
+}
+
+.brand-sub {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f766e;
+}
+
+.sheet-close {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --color: #64748b;
+  margin: -4px -8px 0 0;
+}
+
+.sheet-meta {
+  margin: 12px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #334155;
+
+  ion-icon { font-size: 17px; color: #0f766e; flex: 0 0 auto; }
+}
+
+.sheet-prices {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0 4px;
+}
+
+.price-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 15px;
+  background: #f1f5f4;
+  border: 2px solid transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.price-card.hl {
+  background: #ecfdf5;
+  border-color: #0f766e;
+}
+
+.pc-name {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+}
+
+.pc-val {
+  font-size: 21px;
+  font-weight: 800;
+  color: #0b1f2a;
+
+  small { font-size: 12px; font-weight: 600; color: #64748b; }
+  &.muted { color: #94a3b8; font-weight: 600; font-size: 15px; }
+}
+
+.sheet-source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #64748b;
+
+  ion-icon { font-size: 14px; }
+}
+
+.nav-btn {
+  margin-top: 16px;
+  --background: #0f766e;
+  --background-activated: #0d685f;
+  --border-radius: 14px;
+  --box-shadow: 0 6px 16px rgba(15, 118, 110, 0.32);
+  font-weight: 700;
+  height: 50px;
+}

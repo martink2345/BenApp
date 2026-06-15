@@ -1,0 +1,167 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <ion-title>Čerpací Stanice</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="reloadHere()" [disabled]="loadingStations" aria-label="Načíst tuto oblast">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false" class="app-content">
+  <div class="layout">
+
+    <!-- ===== Horní menu: zastropované ceny státem ===== -->
+    <section class="caps-banner">
+      <div class="caps-head">
+        <ion-icon name="wallet-outline"></ion-icon>
+        <span class="caps-title">Maximální ceny stanovené státem</span>
+      </div>
+
+      <div class="caps-body">
+        <ng-container *ngIf="loadingCaps">
+          <div class="caps-loading">
+            <ion-spinner name="dots"></ion-spinner>
+            <span>Načítám aktuální strop&nbsp;…</span>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!loadingCaps && capsError">
+          <div class="caps-error">
+            <ion-icon name="warning-outline"></ion-icon>
+            <span>Strop se nepodařilo načíst z mf.gov.cz.</span>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!loadingCaps && !capsError && cappedPrices as caps">
+          <div class="caps-prices">
+            <div class="caps-pill benzin">
+              <span class="caps-label">Benzin 95</span>
+              <span class="caps-value">{{ formatPrice(caps.benzin) }}<small>Kč/l</small></span>
+            </div>
+            <div class="caps-pill nafta">
+              <span class="caps-label">Nafta</span>
+              <span class="caps-value">{{ formatPrice(caps.nafta) }}<small>Kč/l</small></span>
+            </div>
+          </div>
+          <div class="caps-foot">
+            <span *ngIf="caps.effectiveFrom" class="caps-eff">
+              <ion-icon name="time-outline"></ion-icon> {{ caps.effectiveFrom }}
+            </span>
+            <span class="caps-src">
+              <ion-icon name="information-circle-outline"></ion-icon> Zdroj: mf.gov.cz
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+
+    <!-- ===== Ovládání: volba paliva + filtr značek ===== -->
+    <section class="controls">
+      <ion-segment
+        class="fuel-seg"
+        [value]="fuel"
+        (ionChange)="onFuelChange($any($event.detail.value))"
+        mode="ios">
+        <ion-segment-button value="natural95">
+          <ion-label>Natural 95</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="diesel">
+          <ion-label>Nafta</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </section>
+
+    <!-- ===== Mapa ===== -->
+    <div class="map-wrap">
+      <div #mapContainer class="map"></div>
+
+      <!-- stav nad mapou -->
+      <div class="map-status" *ngIf="loadingStations">
+        <ion-spinner name="crescent"></ion-spinner>
+        <span>Hledám čerpací stanice&nbsp;…</span>
+      </div>
+      <div class="map-status error" *ngIf="!loadingStations && stationsError">
+        <ion-icon name="warning-outline"></ion-icon>
+        <span>Stanice se nenačetly</span>
+      </div>
+      <div class="map-hint" *ngIf="!loadingStations && !stationsError && stations.length">
+        Přibliž mapu pro zobrazení cen · {{ stations.length }} stanic
+      </div>
+
+      <!-- akční tlačítka -->
+      <ion-fab vertical="bottom" horizontal="end" class="map-fabs">
+        <ion-fab-button size="small" color="light" (click)="reloadHere()" aria-label="Načíst tuto oblast">
+          <ion-icon name="refresh-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="recenter()" aria-label="Moje poloha">
+          <ion-icon name="locate-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Detail stanice (spodní panel) -->
+<ion-modal
+  [isOpen]="!!selected"
+  [breakpoints]="[0, 0.45, 0.9]"
+  [initialBreakpoint]="0.45"
+  [handle]="true"
+  (didDismiss)="closeSheet()"
+  class="detail-modal">
+  <ng-template>
+    <div class="sheet" *ngIf="selected as st">
+      <div class="sheet-head">
+        <span class="brand-dot" [style.background]="brandColor(st)"></span>
+        <div class="sheet-titles">
+          <h2>{{ st.name }}</h2>
+          <p class="brand-sub">{{ st.brandLabel }}</p>
+        </div>
+        <ion-button fill="clear" class="sheet-close" (click)="closeSheet()" aria-label="Zavřít">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="sheet-meta">
+        <div class="meta-row" *ngIf="st.address">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{ st.address }}</span>
+        </div>
+        <div class="meta-row" *ngIf="st.distanceKm != null">
+          <ion-icon name="navigate"></ion-icon>
+          <span>{{ st.distanceKm | number:'1.1-1' }} km od tebe</span>
+        </div>
+      </div>
+
+      <div class="sheet-prices">
+        <div class="price-card" [class.hl]="fuel === 'natural95'">
+          <span class="pc-name">Natural 95</span>
+          <span class="pc-val" *ngIf="st.prices.natural95 != null; else noN95">
+            {{ formatPrice(st.prices.natural95) }} <small>Kč/l</small>
+          </span>
+          <ng-template #noN95><span class="pc-val muted">není</span></ng-template>
+        </div>
+        <div class="price-card" [class.hl]="fuel === 'diesel'">
+          <span class="pc-name">Nafta</span>
+          <span class="pc-val" *ngIf="st.prices.diesel != null; else noDsl">
+            {{ formatPrice(st.prices.diesel) }} <small>Kč/l</small>
+          </span>
+          <ng-template #noDsl><span class="pc-val muted">není</span></ng-template>
+        </div>
+      </div>
+
+      <div class="sheet-source" *ngIf="st.prices.source">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <span>Cena: {{ st.prices.source }}</span>
+        <ng-container *ngIf="st.prices.updated"> · {{ st.prices.updated }}</ng-container>
+      </div>
+
+      <ion-button expand="block" class="nav-btn" (click)="navigateToSelected()">
+        <ion-icon slot="start" name="navigate"></ion-icon>
+        Navigovat
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-modal>

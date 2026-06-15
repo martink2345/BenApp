@@ -1,0 +1,85 @@
+/*
+ * Ionic theme – paleta "petrol/teal".
+ * Primární barva ladí s mapou i cenovým bannerem.
+ */
+
+:root {
+  /* ----- primární (petrol) ----- */
+  --ion-color-primary: #0f766e;
+  --ion-color-primary-rgb: 15, 118, 110;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0d685f;
+  --ion-color-primary-tint: #277f78;
+
+  /* ----- sekundární (amber akcent) ----- */
+  --ion-color-secondary: #f59e0b;
+  --ion-color-secondary-rgb: 245, 158, 11;
+  --ion-color-secondary-contrast: #1a1300;
+  --ion-color-secondary-contrast-rgb: 26, 19, 0;
+  --ion-color-secondary-shade: #d88b0a;
+  --ion-color-secondary-tint: #f6a823;
+
+  /* ----- tercirní ----- */
+  --ion-color-tertiary: #2f80ed;
+  --ion-color-tertiary-rgb: 47, 128, 237;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #2971d1;
+  --ion-color-tertiary-tint: #448cef;
+
+  /* ----- stavové ----- */
+  --ion-color-success: #16a34a;
+  --ion-color-success-rgb: 22, 163, 74;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #138f41;
+  --ion-color-success-tint: #2dac5c;
+
+  --ion-color-warning: #d97706;
+  --ion-color-warning-rgb: 217, 119, 6;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #bf6905;
+  --ion-color-warning-tint: #dd851f;
+
+  --ion-color-danger: #dc2626;
+  --ion-color-danger-rgb: 220, 38, 38;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #c22121;
+  --ion-color-danger-tint: #e03c3c;
+
+  --ion-color-light: #f4f7f6;
+  --ion-color-light-rgb: 244, 247, 246;
+  --ion-color-light-contrast: #0b1f2a;
+  --ion-color-light-contrast-rgb: 11, 31, 42;
+  --ion-color-light-shade: #d7d9d9;
+  --ion-color-light-tint: #f5f8f7;
+
+  --ion-color-medium: #64748b;
+  --ion-color-medium-rgb: 100, 116, 139;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #58667a;
+  --ion-color-medium-tint: #748297;
+
+  --ion-color-dark: #0b1f2a;
+  --ion-color-dark-rgb: 11, 31, 42;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #0a1b25;
+  --ion-color-dark-tint: #23353f;
+
+  /* ----- vlastní tokeny aplikace ----- */
+  --app-bg: #eef2f1;
+  --app-toolbar-bg: #0f766e;
+  --app-ink: #0b1f2a;
+  --app-benzin: #16a34a;
+  --app-nafta: #d97706;
+
+  --ion-background-color: #eef2f1;
+  --ion-background-color-rgb: 238, 242, 241;
+  --ion-text-color: #0b1f2a;
+  --ion-text-color-rgb: 11, 31, 42;
+}

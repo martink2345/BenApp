@@ -1,0 +1,131 @@
+
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* Leaflet potřebuje mít kontejner s konkrétní výškou (řeší .map v home.page.scss). */
+.leaflet-container {
+  font: inherit;
+  background: #e6ebec;
+}
+
+
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* marker uživatele (modrý bod) */
+.user-div { background: transparent; border: 0; }
+
+.user-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #2f80ed;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(47, 128, 237, 0.45), 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.user-pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(47, 128, 237, 0.35);
+  transform: translate(-50%, -50%) scale(1);
+  animation: user-pulse 2.1s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes user-pulse {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.65; }
+  70%  { opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(3.4); opacity: 0; }
+}
+
+/*  markery stanic */
+.fuel-div { background: transparent; border: 0; }
+
+.fuel-marker {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* zazoomováno málo → jen barevná tečka značky */
+.fuel-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* zazoomováno hodně, cenovka s cenou zvoleného paliva */
+.fuel-pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -100%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0b1f2a;
+  border: 2px solid #64748b;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.28);
+}
+
+/* malý dolní hrot cenovky mířící na stanici */
+.fuel-pill::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: -1px;
+  border: 5px solid transparent;
+  border-top-color: #ffffff;
+}
+
+.fuel-dot-sm {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+/* zvýraznění vybrané stanice */
+.fuel-marker.is-selected .fuel-pill {
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.5), 0 2px 9px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+}
+
+.fuel-marker.is-selected .fuel-dot {
+  width: 17px;
+  height: 17px;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.55), 0 1px 5px rgba(0, 0, 0, 0.35);
+}
