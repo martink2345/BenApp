@@ -1,4 +1,4 @@
-README
+
 Požadavky
 Node.js 20 nebo vyšší
 npm 14.0 nebo vyšší
